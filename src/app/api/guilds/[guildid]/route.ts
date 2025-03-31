@@ -4,7 +4,7 @@ import { authOptions } from "@/app/lib/auth";
 
 export async function GET(
   req: NextRequest,
-  context: { params: { guildid: string } }
+  { params }: { params: { guildid: string } }
 ) {
     const session = await getServerSession(authOptions);
 
@@ -12,7 +12,7 @@ export async function GET(
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const guildId = context.params.guildid;
+    const guildId = params.guildid;
     const apiUrl = `https://discord.com/api/v10/guilds/${guildId}`;
     
     try {
