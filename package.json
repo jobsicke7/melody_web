@@ -9,14 +9,21 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth/core": "^0.34.2",
+    "certifi": "^14.5.15",
+    "lucide-react": "^0.485.0",
+    "mongodb": "^3.7.4",
+    "next": "15.2.4",
+    "next-auth": "^4.24.11",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "next": "15.2.4"
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@types/mongodb": "^4.0.6",
+    "@types/next-auth": "^3.13.0",
     "@types/node": "^20",
     "@types/react": "^19",
-    "@types/react-dom": "^19"
+    "@types/react-dom": "^19",
+    "typescript": "^5"
   }
 }
