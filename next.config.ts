@@ -12,6 +12,11 @@ const nextConfig = {
         hostname: "cdn.discordapp.com",
         pathname: "/icons/**",
       },
+      {
+        protocol: "https",
+        hostname: "i.ytimg.com",
+        pathname: "/vi/**",
+      },
     ],
   },
 };

@@ -1,111 +1,695 @@
-.back {
-    background-color: black;
-    min-height: 74vh;
-}
-.container {
-    max-width: 800px;
-    margin: 80px auto;
-    padding: 20px;
-    background: rgba(30, 30, 30, 0.9);
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+.playerPage {
+    background: linear-gradient(180deg, #121212 0%, #1a1a1a 100%);
+    min-height: 100vh;
     color: white;
-    text-align: center;
-    backdrop-filter: blur(10px);
+    padding: 20px;
+    padding-top: 80px;
 }
 
-.nowPlayingCard {
-    margin-top: 30px;
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: rgba(24, 24, 24, 0.8);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 120px); /* 고정 높이 설정 */
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    flex-shrink: 0; /* 헤더 크기 고정 */
+}
+
+.guildInfo {
+    display: flex;
+    align-items: center;
+}
+
+.guildIcon {
+    border-radius: 50%;
+    margin-right: 15px;
+    flex-shrink: 0; /* 아이콘 크기 고정 */
+}
+
+.defaultGuildIcon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7289da, #5865f2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: 15px;
+    flex-shrink: 0; /* 아이콘 크기 고정 */
+}
+
+.guildName {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mainContent {
+    display: flex;
+    padding: 30px;
+    flex: 1;
+    overflow: hidden; /* 내용이 넘치지 않도록 함 */
+}
+
+.playerSection {
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: rgba(50, 50, 50, 0.8);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    justify-content: center;
+    padding-right: 30px;
+    min-width: 0; /* 플렉스 아이템이 컨테이너보다 작아질 수 있도록 함 */
+    overflow: hidden; /* 내용이 넘치지 않도록 함 */
 }
 
-.nowPlayingCard img {
-    width: 480px;
-    height: 270px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
-    transition: transform 0.3s;
-    margin-bottom: 20px;
+.albumArt {
+    position: relative;
+    margin-bottom: 40px;
+    flex-shrink: 0; /* 앨범 아트 크기 고정 */
 }
 
-.nowPlayingCard img:hover {
+.albumImage {
+    width: 320px;
+    height: 320px;
+    border-radius: 8px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    object-fit: cover;
+}
+
+.playingIndicator {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 5px;
+}
+
+.playingDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #1db954;
+    animation: pulsate 1.5s infinite;
+}
+
+.playingDot:nth-child(2) {
+    animation-delay: 0.5s;
+}
+
+.playingDot:nth-child(3) {
+    animation-delay: 1s;
+}
+
+@keyframes pulsate {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.nowPlayingInfo {
+    width: 100%;
+    text-align: center;
+    min-width: 0; /* 플렉스 아이템이 컨테이너보다 작아질 수 있도록 함 */
+}
+
+.songTitle {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: white;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.artistName {
+    font-size: 1.1rem;
+    color: #b3b3b3;
+    margin-bottom: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.progressContainer {
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+.progressBar {
+    width: 100%;
+    height: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    margin-bottom: 5px;
+    overflow: hidden;
+}
+
+.progressFill {
+    height: 100%;
+    background: linear-gradient(90deg, #1db954, #1ed760);
+    border-radius: 2px;
+    transition: width 0.1s linear;
+}
+
+.timeDisplay {
+    display: flex;
+    justify-content: space-between;
+    color: #b3b3b3;
+    font-size: 0.9rem;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap; /* 작은 화면에서 버튼이 줄바꿈 되도록 함 */
+    gap: 10px; /* 버튼 사이 간격 */
+}
+
+.controlButton {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.8rem;
+    margin: 0 15px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: all 0.2s ease;
+    flex-shrink: 0; /* 버튼 크기 고정 */
+}
+
+.controlButton:hover {
+    opacity: 1;
     transform: scale(1.1);
 }
 
-.queueSection {
-    margin-top: 20px;
-    background: rgba(50, 50, 50, 0.8);
-    padding: 15px;
-    border-radius: 10px;
-    max-height: 300px;
+.playPauseButton {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #1db954;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 20px;
+    box-shadow: 0 8px 16px rgba(29, 185, 84, 0.3);
+}
+
+.playPauseButton:hover {
+    background: #1ed760;
+    transform: scale(1.05);
+}
+
+.volumeControl {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 10px;
+    min-width: 120px; /* 최소 너비 설정 */
+    max-width: 200px; /* 최대 너비 설정 */
+}
+
+.volumeSlider {
+    flex: 1;
+    -webkit-appearance: none;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    outline: none;
+}
+
+.volumeSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+}
+
+.volumeSlider::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    border: 0;
+}
+
+/* 사이드 패널 스타일 */
+.sidePanel {
+    flex: 0 0 350px;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    padding-left: 30px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* 내용이 넘치지 않도록 함 */
+    height: 100%;
+}
+
+.searchSection {
+    margin-bottom: 20px;
+    flex-shrink: 0; /* 검색 섹션 크기 고정 */
+}
+
+.searchBar {
+    display: flex;
+    width: 100%;
+}
+
+.searchInput {
+    flex: 1;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.07);
+    border: none;
+    border-radius: 8px 0 0 8px;
+    color: white;
+    font-size: 1rem;
+}
+
+.searchButton {
+    background: #1db954;
+    border: none;
+    border-radius: 0 8px 8px 0;
+    color: white;
+    padding: 0 15px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.searchButton:hover {
+    background: #1ed760;
+}
+
+.tabButtons {
+    display: flex;
+    margin-bottom: 20px;
+    flex-shrink: 0; /* 탭 버튼 크기 고정 */
+}
+
+.tabButton {
+    flex: 1;
+    padding: 10px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: #b3b3b3;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.tabButton.activeTab {
+    color: white;
+    border-bottom: 2px solid #1db954;
+}
+
+.sectionTitle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    flex-shrink: 0; /* 섹션 제목 크기 고정 */
+}
+
+.queueCount {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 4px 10px;
+    font-size: 0.8rem;
+    font-weight: normal;
+}
+
+.queueList, .searchResults {
     overflow-y: auto;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    flex: 1; /* 가용 공간 모두 차지 */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.queueList::-webkit-scrollbar, .searchResults::-webkit-scrollbar {
+    width: 5px;
+}
+
+.queueList::-webkit-scrollbar-thumb, .searchResults::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+}
+
+.queueItems, .searchItems {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .queueItem {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    transition: background-color 0.2s;
 }
 
-.queueItem:last-child {
-    border-bottom: none;
+.queueItem:hover {
+    background: rgba(255, 255, 255, 0.08);
 }
 
-.inputSection {
+.queueNumber {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
     display: flex;
-    gap: 10px;
-    margin-top: 20px;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-right: 15px;
+    flex-shrink: 0; /* 번호 크기 고정 */
 }
 
-.inputSection input {
-    flex-grow: 1;
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    background: #333;
-    color: white;
+.queueInfo {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
-.inputSection button {
-    padding: 10px 15px;
-    background: linear-gradient(135deg, #ff7eb3, #ff758c);
-    border: none;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-    transition: 0.3s;
+.queueTitle {
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 
-.inputSection button:hover {
-    background: linear-gradient(135deg, #ff758c, #ff7eb3);
-    transform: scale(1.05);
+.queueUser {
+    font-size: 0.8rem;
+    color: #b3b3b3;
 }
 
-.searchResults {
-    margin-top: 20px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 10px;
-}
-
-.resultCard {
-    background: rgba(50, 50, 50, 0.9);
-    padding: 10px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: transform 0.3s;
+.emptyQueue, .emptySearch {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    color: #b3b3b3;
+    font-size: 0.95rem;
     text-align: center;
 }
 
-.resultCard:hover {
-    transform: scale(1.1);
+.searchItem {
+    display: flex;
+    padding: 10px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+.searchItem:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.searchThumbnail {
+    position: relative;
+    margin-right: 15px;
+    flex-shrink: 0; /* 썸네일 크기 고정 */
+}
+
+.addOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+    border-radius: 4px;
+}
+
+.searchItem:hover .addOverlay {
+    opacity: 1;
+}
+
+.searchInfo {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.searchTitle {
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.searchChannel {
+    font-size: 0.8rem;
+    color: #b3b3b3;
+}
+
+.emptyPlayer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+}
+
+.emptyPlayerIcon {
+    font-size: 5rem;
+    color: rgba(255, 255, 255, 0.2);
+    margin-bottom: 20px;
+}
+
+.toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1db954;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    animation: fadeInOut 3s ease forwards;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translate(-50%, 20px); }
+    10% { opacity: 1; transform: translate(-50%, 0); }
+    90% { opacity: 1; transform: translate(-50%, 0); }
+    100% { opacity: 0; transform: translate(-50%, -20px); }
+}
+
+/* 태블릿 대응 */
+@media (max-width: 1024px) {
+    .container {
+        height: auto;
+        min-height: calc(100vh - 120px);
+    }
+    
+    .mainContent {
+        flex-direction: column;
+        padding: 20px;
+    }
+    
+    .playerSection {
+        padding-right: 0;
+        margin-bottom: 30px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .albumImage {
+        width: 280px;
+        height: 280px;
+    }
+    
+    .sidePanel {
+        width: 100%;
+        flex: 0 0 auto;
+        border-left: none;
+        padding-left: 0;
+        max-height: 500px;
+    }
+}
+
+/* 모바일 대응 */
+@media (max-width: 600px) {
+    .playerPage {
+        padding: 10px;
+        padding-top: 60px;
+    }
+    
+    .container {
+        border-radius: 12px;
+    }
+    
+    .header {
+        padding: 15px;
+    }
+    
+    .guildIcon, .defaultGuildIcon {
+        width: 30px;
+        height: 30px;
+        margin-right: 10px;
+    }
+    
+    .guildName {
+        font-size: 1.2rem;
+    }
+    
+    .mainContent {
+        padding: 15px;
+    }
+    
+    .albumImage {
+        width: 220px;
+        height: 220px;
+    }
+    
+    .songTitle {
+        font-size: 1.4rem;
+    }
+    
+    .artistName {
+        font-size: 1rem;
+        margin-bottom: 20px;
+    }
+    
+    .progressContainer {
+        margin-bottom: 15px;
+    }
+    
+    .controlButton {
+        font-size: 1.4rem;
+        margin: 0 8px;
+    }
+    
+    .playPauseButton {
+        width: 50px;
+        height: 50px;
+        margin: 0 15px;
+    }
+    
+    .volumeControl {
+        width: 100%;
+        max-width: 100%;
+        margin-top: 10px;
+        margin-left: 0;
+    }
+    
+    .searchInput {
+        padding: 10px;
+    }
+    
+    .searchButton {
+        padding: 0 12px;
+    }
+    
+    .tabButton {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+    
+    .sectionTitle {
+        font-size: 1.1rem;
+    }
+    
+    .queueItem, .searchItem {
+        padding: 8px;
+    }
+    
+    .queueNumber {
+        width: 25px;
+        height: 25px;
+        margin-right: 10px;
+    }
+    
+    .queueTitle, .searchTitle {
+        font-size: 0.9rem;
+    }
+}
+
+/* 최소 화면 크기 대응 */
+@media (max-width: 400px) {
+    .albumImage {
+        width: 180px;
+        height: 180px;
+    }
+    
+    .songTitle {
+        font-size: 1.2rem;
+    }
+    
+    .artistName {
+        font-size: 0.9rem;
+    }
+    
+    .controls {
+        gap: 5px;
+    }
+    
+    .controlButton {
+        font-size: 1.2rem;
+        margin: 0 5px;
+    }
+    
+    .playPauseButton {
+        width: 45px;
+        height: 45px;
+        margin: 0 10px;
+    }
 }
