@@ -21,7 +21,7 @@ export async function GET(req: Request) {
     const nowPlaying = await db.collection('now_playing').findOne({ guild_id: guildId });
 
 
-    return NextResponse.json(nowPlaying || { message: 'No data found' });
+    return NextResponse.json(nowPlaying);
   } catch (error) {
     console.error("Database error:", error);
     return NextResponse.json({ error: 'Database connection failed' }, { status: 500 });

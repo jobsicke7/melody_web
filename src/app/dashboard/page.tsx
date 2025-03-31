@@ -66,8 +66,8 @@ export default function DashboardPage() {
 
   return (
     <div className={styles.dashboard}>
-      <h1 className={styles.title}>내 디스코드 서버</h1>
-      <p className={styles.subtitle}>음악 재생 서비스를 이용할 서버를 선택하세요</p>
+      <h1 className={styles.title}>멜로봇 대시보드</h1>
+      <p className={styles.subtitle}>간편하게 멜로봇을 관리해보세요</p>
       
       <div className={styles.guildList}>
         {guilds.map((guild) => (
@@ -108,8 +108,10 @@ export default function DashboardPage() {
                 </Link>
               ) : (
                 <a
-                  href={`https://discord.com/oauth2/authorize?client_id=${process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID}&permissions=274877975552&scope=bot+applications.commands&guild_id=${guild.id}&disable_guild_select=true`}
+                  href={`https://discord.com/oauth2/authorize?client_id=1310753814319468565&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fdev.jobsickes.shop%2Finvitethanks&integration_type=0&scope=identify+bot+applications.commands&guild_id=${guild.id}&disable_guild_select=false`}
                   className={styles.inviteButton}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   서버에 봇 초대하기
                 </a>

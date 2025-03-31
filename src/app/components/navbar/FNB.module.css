@@ -1,0 +1,111 @@
+.footer {
+    background-color: #121212;
+    color: #f5f5f5;
+    padding: 3rem 1.5rem 1.5rem;
+    width: 100%;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .top {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  @media (min-width: 768px) {
+    .top {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+  }
+  
+  .logoSection {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .logo {
+    height: auto;
+    object-fit: contain;
+  }
+  
+  .copyright {
+    color: #a1a1a1;
+    font-size: 0.875rem;
+    margin: 0;
+  }
+  
+  .linksContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+  }
+  
+  .linkGroup {
+    min-width: 160px;
+  }
+  
+  .linkTitle {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: #f5f5f5;
+  }
+  
+  .linkList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .link {
+    color: #a1a1a1;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .link:hover {
+    color: #f5f5f5;
+  }
+  
+  .icon {
+    font-size: 1.125rem;
+  }
+  
+  .bottom {
+    border-top: 1px solid #2d2d2d;
+    padding-top: 1.5rem;
+    text-align: center;
+  }
+  
+  .buildInfo {
+    color: #a1a1a1;
+    font-size: 0.75rem;
+    margin: 0;
+  }
+  
+  .vercelLink {
+    color: #a1a1a1;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  
+  .vercelLink:hover {
+    color: #f5f5f5;
+  }
+  

@@ -1,4 +1,3 @@
-// src/components/navbar/GNB.tsx
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
@@ -13,13 +12,19 @@ interface NavItem {
   label: string;
   href: string;
   highlighted?: boolean;
+  isExternal?: boolean; // 외부 링크 여부를 위한 속성 추가
 }
 
 const navItems: NavItem[] = [
   { label: '명령어', href: '/commands' },
-  { label: '커뮤니티', href: '/community' },
+  { label: '커뮤니티', href: 'https://discord.gg/kW3tXNEWNs'},
   { label: '대시보드', href: '/dashboard' },
-  { label: '초대하기', href: '/invite', highlighted: true },
+  {
+    label: '초대하기',
+    href: 'https://discord.com/oauth2/authorize?client_id=1310753814319468565&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fdev.jobsickes.shop%2Finvitethanks&integration_type=0&scope=identify+bot+applications.commands',
+    highlighted: true,
+    isExternal: true, // 외부 링크 처리
+  },
 ];
 
 const moreItems: NavItem[] = [
@@ -107,6 +112,11 @@ export default function GNB() {
     setShowUserMenu(false);
   };
 
+  // 새 탭에서 열기 처리
+  const handleExternalLinkClick = (href: string) => {
+    window.open(href, '_blank', 'noopener noreferrer');
+  };
+
   return (
     <>
       {/* Main Navigation Bar */}
@@ -130,16 +140,26 @@ export default function GNB() {
             {/* Right side - Navigation Items (Desktop) */}
             <div className={styles.navItemsDesktop}>
               {navItems.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  className={`${styles.navItem} ${item.highlighted ? styles.highlightedNavItem : ''}`}
-                >
-                  {item.label}
-                </Link>
+                item.isExternal ? (
+                  <button
+                    key={item.label}
+                    onClick={() => handleExternalLinkClick(item.href)} // 클릭 시 새 탭에서 열기
+                    className={`${styles.navItem} ${item.highlighted ? styles.highlightedNavItem : ''}`}
+                  >
+                    {item.label}
+                  </button>
+                ) : (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    className={`${styles.navItem} ${item.highlighted ? styles.highlightedNavItem : ''}`}
+                  >
+                    {item.label}
+                  </Link>
+                )
               ))}
-            {/* User authentication */}
-            {status === 'authenticated' && session?.user ? (
+              {/* User authentication */}
+              {status === 'authenticated' && session?.user ? (
                 <div className={styles.userButtonContainer} ref={userMenuRef}>
                   <button
                     onClick={toggleUserMenu}
@@ -169,7 +189,6 @@ export default function GNB() {
                         <LogOut size={16} />
                         <span>로그아웃</span>
                       </button>
-                      {/* 여기에 추가 메뉴 항목들을 추가할 수 있습니다 */}
                     </div>
                   )}
                 </div>
@@ -206,8 +225,6 @@ export default function GNB() {
                   </div>
                 )}
               </div>
-
-              
             </div>
 
             {/* Mobile Menu Button */}
@@ -243,14 +260,27 @@ export default function GNB() {
             
             <div className={styles.sidebarContent}>
               {navItems.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  className={`${styles.sidebarItem} ${item.highlighted ? styles.highlightedNavItem : ''}`}
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.label}
-                </Link>
+                item.isExternal ? (
+                  <button
+                    key={item.label}
+                    onClick={() => {
+                      handleExternalLinkClick(item.href); // 클릭 시 새 탭에서 열기
+                      setIsOpen(false); // 사이드바 닫기
+                    }}
+                    className={`${styles.sidebarItem} ${item.highlighted ? styles.highlightedNavItem : ''}`}
+                  >
+                    {item.label}
+                  </button>
+                ) : (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    className={`${styles.sidebarItem} ${item.highlighted ? styles.highlightedNavItem : ''}`}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                )
               ))}
               
               {/* More items directly in sidebar on mobile */}

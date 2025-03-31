@@ -5,7 +5,7 @@ import './globals.css';
 import GNB from '@/app/components/navbar/GNB';
 import styles from './layout.module.css';
 import { Providers } from './providers';
-
+import Footer from '@/app/components/navbar/FNB';
 
 
 const inter = Inter({ subsets: ['latin'] });
@@ -26,6 +26,11 @@ export default function RootLayout({
       <body className={`${inter.className} ${styles.body}`}>
         <GNB />
         <main className={styles.main}>{children}</main>
+        <Footer 
+          logoUrl="/images/logo-horizontal.png"
+          discordUrl="https://discord.gg/studioharu"
+          emailAddress="contact@studioharu.com"
+        />
       </body>
       </Providers>
     </html>

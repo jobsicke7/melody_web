@@ -176,7 +176,7 @@ export default function PlayerPage() {
     if (!params.guildId || typeof params.guildId !== 'string') return;
 
     try {
-      await fetch("/api/music/add", {
+      await fetch("/api/music/queue/add", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'
@@ -260,7 +260,9 @@ export default function PlayerPage() {
                 className={styles.guildIcon}
               />
             ) : (
-              <div className={styles.defaultGuildIcon}>{guildInfo.name.charAt(0)}</div>
+              <div className={styles.defaultGuildIcon}>
+                {guildInfo?.name?.charAt(0) || "?"}
+              </div>
             )}
             <h1 className={styles.guildName}>{guildInfo.name}</h1>
           </div>
@@ -339,7 +341,7 @@ export default function PlayerPage() {
               <div className={styles.emptyPlayer}>
                 <MdLibraryMusic className={styles.emptyPlayerIcon} />
                 <h2>현재 재생 중인 음악이 없습니다</h2>
-                <p>아래에서 음악을 검색하거나 추가하세요</p>
+                <p>여기에서 음악을 검색하거나 추가하세요</p>
               </div>
             )}
           </div>
