@@ -1,8 +1,8 @@
 import NextAuth from 'next-auth';
 import DiscordProvider from 'next-auth/providers/discord';
-import type { NextAuthOptions } from 'next-auth';
+import type { AuthOptions  } from 'next-auth';
 
-export const authOptions: NextAuthOptions = {
+export const authOptions: AuthOptions  = {
   debug: true,
   providers: [
     DiscordProvider({
