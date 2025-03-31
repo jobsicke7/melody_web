@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth';
 import DiscordProvider from 'next-auth/providers/discord';
 import type { NextAuthOptions } from 'next-auth';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 
 const authOptions: NextAuthOptions = {
   debug: true,
@@ -33,8 +33,8 @@ const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 };
 
-// Correctly export API route handlers for Next.js 15
+// ✅ Next.js 15 API Route Fix: Only pass `req`
 const handler = NextAuth(authOptions);
 
-export const GET = (req: NextRequest, res: NextResponse) => handler(req, res);
-export const POST = (req: NextRequest, res: NextResponse) => handler(req, res);
+export const GET = (req: NextRequest) => handler(req);
+export const POST = (req: NextRequest) => handler(req);
