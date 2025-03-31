@@ -17,6 +17,17 @@ const nextConfig = {
         hostname: "i.ytimg.com",
         pathname: "/vi/**",
       },
+      // Add these new patterns
+      {
+        protocol: "https",
+        hostname: "i.ytimg.com",
+        pathname: "/vi_webp/**",
+      },
+      {
+        protocol: "https",
+        hostname: "i.ytimg.com",
+        pathname: "/**", // This will allow any path on i.ytimg.com
+      }
     ],
   },
 };
