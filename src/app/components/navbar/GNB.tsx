@@ -123,7 +123,7 @@ export default function GNB() {
                   height={36}
                   className="rounded-full"
                 />
-                <span className={styles.botName}>봇 이름</span>
+                <span className={styles.botName}>멜로</span>
               </Link>
             </div>
 

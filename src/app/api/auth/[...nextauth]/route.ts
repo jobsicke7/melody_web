@@ -9,7 +9,7 @@ const authOptions: NextAuthOptions = {
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID as string,
       clientSecret: process.env.DISCORD_CLIENT_SECRET as string,
-      authorization: "https://discord.com/api/oauth2/authorize?scope=identify+email+guilds",
+      authorization: 'https://discord.com/api/oauth2/authorize?scope=identify+email+guilds',
     }),
   ],
   callbacks: {
@@ -33,8 +33,12 @@ const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 };
 
-// ✅ Next.js 15 API Route Fix: Only pass `req`
+// Next.js 14, 15 API Route Fix: Only pass `req`
 const handler = NextAuth(authOptions);
 
-export const GET = (req: NextRequest) => handler(req);
-export const POST = (req: NextRequest) => handler(req);
+export const GET = (req: NextRequest) => {
+  return handler(req);
+};
+export const POST = (req: NextRequest) => {
+  return handler(req);
+};
