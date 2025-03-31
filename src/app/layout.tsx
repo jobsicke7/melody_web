@@ -28,8 +28,8 @@ export default function RootLayout({
         <main className={styles.main}>{children}</main>
         <Footer 
           logoUrl="/images/logo-horizontal.png"
-          discordUrl="https://discord.gg/studioharu"
-          emailAddress="contact@studioharu.com"
+          discordUrl="https://discord.gg/12345"
+          emailAddress="contact@jobsickes.shop"
         />
       </body>
       </Providers>
