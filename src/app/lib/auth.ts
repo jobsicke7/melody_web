@@ -1,9 +1,8 @@
+import type { NextAuthOptions } from 'next-auth';
 import NextAuth from 'next-auth';
 import DiscordProvider from 'next-auth/providers/discord';
-import type { NextAuthOptions } from 'next-auth';
-import { NextRequest, NextResponse } from 'next/server';
 
-const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   debug: true,
   providers: [
     DiscordProvider({
@@ -28,13 +27,11 @@ const authOptions: NextAuthOptions = {
     },
   },
   pages: {
-    signIn: '/', // 로그인 페이지 커스텀 (필요한 경우)
+    signIn: '/',
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
 
-// Correctly export API route handlers for Next.js 15
+// Export NextAuth handler separately
 const handler = NextAuth(authOptions);
-
-export const GET = (req: NextRequest, res: NextResponse) => handler(req, res);
-export const POST = (req: NextRequest, res: NextResponse) => handler(req, res);
+export { handler as GET, handler as POST };
