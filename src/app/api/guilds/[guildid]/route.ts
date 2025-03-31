@@ -2,14 +2,17 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/lib/auth";
 
-export async function GET(req: NextRequest, { params }: { params: { guildid: string } }) {
+export async function GET(
+  req: NextRequest,
+  context: { params: { guildid: string } }
+) {
     const session = await getServerSession(authOptions);
 
     if (!session) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const guildId = params.guildid;
+    const guildId = context.params.guildid;
     const apiUrl = `https://discord.com/api/v10/guilds/${guildId}`;
     
     try {
