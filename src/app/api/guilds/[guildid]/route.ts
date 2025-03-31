@@ -3,8 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/lib/auth";
 
 export async function GET(
-  req: NextRequest,
-  { params }: { params: { guildid: string } }
+  req: NextRequest
 ) {
     const session = await getServerSession(authOptions);
 
@@ -12,7 +11,11 @@ export async function GET(
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const guildId = params.guildid;
+    // URL에서 guildid 추출
+    const url = new URL(req.url);
+    const pathParts = url.pathname.split('/');
+    const guildId = pathParts[pathParts.length - 1];
+    
     const apiUrl = `https://discord.com/api/v10/guilds/${guildId}`;
     
     try {
