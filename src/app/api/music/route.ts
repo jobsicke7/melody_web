@@ -14,9 +14,9 @@ async function callBotApi(endpoint: string, method: string, body: any) {
       method,
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${BOT_API_SECRET}`
+        'Authorization': `Bearer ${BOT_API_SECRET}`,
       },
-      body: JSON.stringify(body)
+      body: method !== 'GET' ? JSON.stringify(body) : undefined,
     });
 
     if (!response.ok) {
@@ -31,7 +31,7 @@ async function callBotApi(endpoint: string, method: string, body: any) {
   }
 }
 
-// GET handler for now-playing
+// GET handler - fetch now playing
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const guildId = searchParams.get('guildId');
@@ -46,14 +46,14 @@ export async function GET(request: Request) {
   }
 
   try {
-    const data = await callBotApi('/music/now-playing', 'GET', { guildId });
+    const data = await callBotApi('/music/now-playing', 'POST', { guildId });
     return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch now playing' }, { status: 500 });
   }
 }
 
-// Play handler
+// POST handler - play music or resume
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
   if (!session || !session.user) {
@@ -68,45 +68,23 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Guild ID is required' }, { status: 400 });
     }
 
-    // For adding a song to play
     if (url) {
+      // Add song to queue
       await callBotApi('/music/play', 'POST', {
         guildId,
         url,
         userId: session.user.id,
-        userName: session.user.name
+        userName: session.user.name,
       });
+
       return NextResponse.json({ success: true, message: 'Song added to queue' });
     }
 
-    // Simple play command (resume)
+    // Resume playback
     await callBotApi('/music/play', 'POST', { guildId });
     return NextResponse.json({ success: true, message: 'Playback resumed' });
   } catch (error) {
     console.error('Play error:', error);
     return NextResponse.json({ error: 'Failed to play music' }, { status: 500 });
-  }
-}
-
-// Create separate route handlers for different player actions
-export async function handler(request: Request, action: string) {
-  const session = await getServerSession(authOptions);
-  if (!session || !session.user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
-  try {
-    const body = await request.json();
-    const { guildId } = body;
-
-    if (!guildId) {
-      return NextResponse.json({ error: 'Guild ID is required' }, { status: 400 });
-    }
-
-    await callBotApi(`/music/${action}`, 'POST', { guildId });
-    return NextResponse.json({ success: true, message: `${action} command executed` });
-  } catch (error) {
-    console.error(`${action} error:`, error);
-    return NextResponse.json({ error: `Failed to ${action}` }, { status: 500 });
   }
 }
