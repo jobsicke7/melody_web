@@ -15,9 +15,10 @@ interface NowPlaying {
     url?: string;
     info?: {
       thumbnail?: string;
+      channel?: string;
+      duration?: number;
     };
     duration?: string;
-    author?: string;
 }
 
 interface QueueItem {
@@ -68,6 +69,7 @@ export default function PlayerPage() {
       try {
         const res = await fetch(`/api/music/now-playing?guildId=${params.guildId}`);
         const data = await res.json();
+        console.log(data)
         setNowPlaying(data);
       } catch (error) {
         console.error('Failed to fetch now playing:', error);
@@ -114,7 +116,7 @@ export default function PlayerPage() {
             clearInterval(progressInterval);
             return 0;
           }
-          return prev + 0.1;
+          return prev + 0.03;
         });
       }, 100);
     }
@@ -289,7 +291,7 @@ export default function PlayerPage() {
                 
                 <div className={styles.nowPlayingInfo}>
                   <h2 className={styles.songTitle}>{nowPlaying.title}</h2>
-                  <p className={styles.artistName}>{nowPlaying.author || 'Unknown Artist'}</p>
+                  <p className={styles.artistName}>{nowPlaying.info?.channel || 'Unknown Artist'}</p>
                   
                   <div className={styles.progressContainer}>
                     <div className={styles.progressBar}>
@@ -300,7 +302,7 @@ export default function PlayerPage() {
                     </div>
                     <div className={styles.timeDisplay}>
                       <span>{formatTime(progress * 3)}</span>
-                      <span>{nowPlaying.duration || '3:00'}</span>
+                      <span>{nowPlaying.info?.duration !== undefined ? formatTime(nowPlaying.info.duration) : '3:00'}</span>
                     </div>
                   </div>
                   

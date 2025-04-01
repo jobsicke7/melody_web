@@ -76,17 +76,18 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding-right: 30px;
+    padding: 20px 30px; /* 위아래에 20px, 좌우에 30px 패딩 추가 */
     min-width: 0;
-    overflow: hidden;
+    overflow: visible; /* 모든 콘텐츠가 보이도록 설정 */
   }
   
   .albumArt {
     position: relative;
-    margin-bottom: 40px;
+    margin: 20px 0 40px; /* 위아래에 20px, 아래쪽에 추가로 40px 여백 */
     flex-shrink: 0;
-    max-width: 400px; /* 최대 너비 설정 */
-    width: 100%; /* 부모에 따라 유동적으로 크기 조정 */
+    max-width: 400px;
+    width: 100%;
+    height: auto; /* 높이를 자동으로 조정 */
   }
   
   .albumImage {
