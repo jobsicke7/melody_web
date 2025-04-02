@@ -16,19 +16,10 @@ const handleError = (error: any) => {
   return NextResponse.json({ success: false, message: 'Internal Server Error' }, { status: 500 });
 };
 
-// 타입 정의
-type Params = {
-  params: {
-    action: string;
-  };
-};
-
 // Now Playing (GET)
-export async function GET(
-  req: NextRequest, 
-  params: Params
-) {
-  const { action } = params.params;
+export async function GET(req: NextRequest, context: { params: { action: string } }) {
+  const { params } = context;
+  const { action } = params;
   const guildId = req.nextUrl.searchParams.get('guildId');
   const token = req.headers.get('Authorization')?.replace('Bearer ', '');
 
@@ -63,18 +54,12 @@ export async function GET(
   return NextResponse.json({ success: false, message: 'Invalid action' }, { status: 400 });
 }
 
-export async function POST(
-  req: NextRequest, 
-  params: Params
-) {
-  const { action } = params.params;
+export async function POST(req: NextRequest, context: { params: { action: string } }) {
+  const { params } = context;
+  const { action } = params;
   console.log('headers:', req.headers);
   const token = req.headers.get('Authorization')?.replace('Bearer ', '');
   console.log('token:', token);
-
-  if (!token || token !== BOT_API_SECRET) {
-    return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 });
-  }
 
   if (action === 'pause') {
     try {
@@ -91,7 +76,10 @@ export async function POST(
   
       const response = await fetch(`${API_BASE_URL}/music/pause`, {
         method: 'POST',
-        headers: getHeaders(token),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.BOT_API_SECRET}`,
+        },
         body: JSON.stringify({ guildId }),
       });
   
@@ -101,7 +89,7 @@ export async function POST(
       return handleError(error);
     }
   }
-
+  
   if (action === 'play') {
     try {
       const body = await req.json();
@@ -117,7 +105,10 @@ export async function POST(
   
       const response = await fetch(`${API_BASE_URL}/music/play`, {
         method: 'POST',
-        headers: getHeaders(token),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.BOT_API_SECRET}`,
+        },
         body: JSON.stringify({
           guildId,
           url,
@@ -132,6 +123,6 @@ export async function POST(
       return handleError(error);
     }
   }
-
+  
   return NextResponse.json({ success: false, message: 'Invalid action' }, { status: 400 });
 }
