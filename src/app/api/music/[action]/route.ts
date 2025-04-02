@@ -16,45 +16,45 @@ const handleError = (error: any) => {
   return NextResponse.json({ success: false, message: 'Internal Server Error' }, { status: 500 });
 };
 
-// Now Playing (GET)
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { action: string } }
-) {
-  const { action } = params;
-  const guildId = req.nextUrl.searchParams.get('guildId');
-  const token = req.headers.get('Authorization')?.replace('Bearer ', '');
+// // Now Playing (GET)
+// export async function GET(
+//   req: NextRequest,
+//   { params }: { params: { action: string } }
+// ) {
+//   const { action } = params;
+//   const guildId = req.nextUrl.searchParams.get('guildId');
+//   const token = req.headers.get('Authorization')?.replace('Bearer ', '');
 
-  if (!token || token !== BOT_API_SECRET) {
-    return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 });
-  }
+//   if (!token || token !== BOT_API_SECRET) {
+//     return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 });
+//   }
 
-  if (action === 'now-playing') {
-    try {
-      const response = await fetch(`${API_BASE_URL}/music/now-playing?guildId=${guildId}`, {
-        headers: getHeaders(token),
-      });
-      const data = await response.json();
-      return NextResponse.json(data);
-    } catch (error) {
-      return handleError(error);
-    }
-  }
+//   if (action === 'now-playing') {
+//     try {
+//       const response = await fetch(`${API_BASE_URL}/music/now-playing?guildId=${guildId}`, {
+//         headers: getHeaders(token),
+//       });
+//       const data = await response.json();
+//       return NextResponse.json(data);
+//     } catch (error) {
+//       return handleError(error);
+//     }
+//   }
 
-  if (action === 'queue') {
-    try {
-      const response = await fetch(`${API_BASE_URL}/music/queue?guildId=${guildId}`, {
-        headers: getHeaders(token),
-      });
-      const data = await response.json();
-      return NextResponse.json(data);
-    } catch (error) {
-      return handleError(error);
-    }
-  }
+//   if (action === 'queue') {
+//     try {
+//       const response = await fetch(`${API_BASE_URL}/music/queue?guildId=${guildId}`, {
+//         headers: getHeaders(token),
+//       });
+//       const data = await response.json();
+//       return NextResponse.json(data);
+//     } catch (error) {
+//       return handleError(error);
+//     }
+//   }
 
-  return NextResponse.json({ success: false, message: 'Invalid action' }, { status: 400 });
-}
+//   return NextResponse.json({ success: false, message: 'Invalid action' }, { status: 400 });
+// }
 
 export async function POST(
   req: NextRequest,
