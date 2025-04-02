@@ -2,7 +2,7 @@
   max-width: 1200px;
   margin: 100px auto;
   padding: 2rem 1rem;
-  min-height: 53vh;
+  min-height: 100vh;
   animation: fadeInUp 0.6s ease-out;
 }
 

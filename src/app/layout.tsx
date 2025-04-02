@@ -27,7 +27,7 @@ export default function RootLayout({
         <GNB />
         <main className={styles.main}>{children}</main>
         <Footer 
-          logoUrl="/images/logo-horizontal.png"
+          logoUrl="/team_logo.png"
           discordUrl="https://discord.gg/kW3tXNEWNs"
           emailAddress="contact@jobsickes.shop"
         />

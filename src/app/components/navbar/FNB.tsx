@@ -13,7 +13,7 @@ interface FooterProps {
 }
 
 const Footer: React.FC<FooterProps> = ({ 
-  logoUrl = '/logo-horizontal.png', 
+  logoUrl = '/team_logo.png', 
   discordUrl = 'https://discord.gg/kW3tXNEWNs',
   emailAddress = 'contact@jobsickes.shop'
 }) => {

@@ -39,8 +39,10 @@ export default function GNB() {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
   const moreMenuRef = useRef<HTMLDivElement>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
+  const sidebarPanelRef = useRef<HTMLDivElement>(null);
 
   // Handle responsive design
   useEffect(() => {
@@ -89,7 +91,41 @@ export default function GNB() {
     };
   }, []);
 
-  const toggleSidebar = () => setIsOpen(!isOpen);
+  // 사이드바 애니메이션을 위한 로직
+  const toggleSidebar = () => {
+    if (isOpen) {
+      closeSidebar();
+    } else {
+      openSidebar();
+    }
+  };
+  
+  const openSidebar = () => {
+    // 먼저 isOpen을 true로 설정하여 컴포넌트가 렌더링되도록 함
+    setIsOpen(true);
+    // 그 다음 tick에서 애니메이션을 활성화
+    requestAnimationFrame(() => {
+      setIsAnimating(true);
+    });
+    // 애니메이션 적용을 위해 body 스크롤 방지
+    document.body.style.overflow = 'hidden';
+  };
+  
+  const closeSidebar = () => {
+    setIsAnimating(false);
+    // 애니메이션이 끝나면 완전히 닫기
+    setTimeout(() => {
+      setIsOpen(false);
+      document.body.style.overflow = '';
+    }, 300); // 애니메이션 시간과 동일하게 설정
+  };
+  
+  // 오버레이 클릭 시 사이드바 닫기
+  const handleOverlayClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      closeSidebar();
+    }
+  };
   
   const toggleMoreMenu = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -244,13 +280,20 @@ export default function GNB() {
       {/* Mobile Sidebar */}
       {isOpen && (
         <div className={styles.sidebar}>
-          <div className={styles.overlay} aria-hidden="true" />
+          <div 
+            className={`${styles.overlay} ${isAnimating ? styles.overlayActive : ''}`} 
+            aria-hidden="true" 
+            onClick={handleOverlayClick}
+          />
           
-          <div className={styles.sidebarPanel}>
+          <div 
+            ref={sidebarPanelRef}
+            className={`${styles.sidebarPanel} ${isAnimating ? styles.sidebarPanelActive : ''}`}
+          >
             <div className={styles.sidebarHeader}>
               <span className={styles.sidebarTitle}>메뉴</span>
               <button
-                onClick={toggleSidebar}
+                onClick={closeSidebar}
                 className={styles.closeButton}
                 aria-label="Close menu"
               >
@@ -265,7 +308,7 @@ export default function GNB() {
                     key={item.label}
                     onClick={() => {
                       handleExternalLinkClick(item.href); // 클릭 시 새 탭에서 열기
-                      setIsOpen(false); // 사이드바 닫기
+                      closeSidebar(); // 사이드바 닫기
                     }}
                     className={`${styles.sidebarItem} ${item.highlighted ? styles.highlightedNavItem : ''}`}
                   >
@@ -276,7 +319,7 @@ export default function GNB() {
                     key={item.label}
                     href={item.href}
                     className={`${styles.sidebarItem} ${item.highlighted ? styles.highlightedNavItem : ''}`}
-                    onClick={() => setIsOpen(false)}
+                    onClick={closeSidebar}
                   >
                     {item.label}
                   </Link>
@@ -290,7 +333,7 @@ export default function GNB() {
                     key={item.label}
                     href={item.href}
                     className={styles.sidebarItem}
-                    onClick={() => setIsOpen(false)}
+                    onClick={closeSidebar}
                   >
                     {item.label}
                   </Link>
@@ -316,7 +359,10 @@ export default function GNB() {
                       <span>{session.user.name || '사용자'}</span>
                     </div>
                     <button
-                      onClick={handleLogout}
+                      onClick={() => {
+                        handleLogout();
+                        closeSidebar();
+                      }}
                       className={styles.sidebarItem}
                     >
                       <LogOut size={16} className={styles.sidebarItemIcon} />
@@ -325,7 +371,10 @@ export default function GNB() {
                   </>
                 ) : (
                   <button
-                    onClick={handleLogin}
+                    onClick={() => {
+                      handleLogin();
+                      closeSidebar();
+                    }}
                     className={`${styles.sidebarItem} ${styles.loginButtonMobile}`}
                   >
                     로그인
