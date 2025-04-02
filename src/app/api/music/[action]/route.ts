@@ -12,16 +12,23 @@ const getHeaders = (token: string) => ({
 
 // 공통 에러 핸들링
 const handleError = (error: any) => {
-  console.error('API Error:', error); // Fixed typo: console.er ror -> console.error
+  console.error('API Error:', error);
   return NextResponse.json({ success: false, message: 'Internal Server Error' }, { status: 500 });
+};
+
+// 타입 정의
+type Params = {
+  params: {
+    action: string;
+  };
 };
 
 // Now Playing (GET)
 export async function GET(
   req: NextRequest, 
-  { params }: { params: { action: string } }
+  params: Params
 ) {
-  const { action } = params;
+  const { action } = params.params;
   const guildId = req.nextUrl.searchParams.get('guildId');
   const token = req.headers.get('Authorization')?.replace('Bearer ', '');
 
@@ -58,9 +65,9 @@ export async function GET(
 
 export async function POST(
   req: NextRequest, 
-  { params }: { params: { action: string } }
+  params: Params
 ) {
-  const { action } = params;
+  const { action } = params.params;
   console.log('headers:', req.headers);
   const token = req.headers.get('Authorization')?.replace('Bearer ', '');
   console.log('token:', token);
