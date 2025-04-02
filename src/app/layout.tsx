@@ -28,7 +28,7 @@ export default function RootLayout({
         <main className={styles.main}>{children}</main>
         <Footer 
           logoUrl="/images/logo-horizontal.png"
-          discordUrl="https://discord.gg/12345"
+          discordUrl="https://discord.gg/kW3tXNEWNs"
           emailAddress="contact@jobsickes.shop"
         />
       </body>

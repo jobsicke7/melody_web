@@ -1,5 +1,5 @@
 'use client';
-
+import { useRouter } from 'next/navigation';
 import styles from './player.module.css';
 import { useEffect, useState, useRef } from 'react';
 import { useSession } from 'next-auth/react';
@@ -51,7 +51,7 @@ export default function PlayerPage() {
   const [viewMode, setViewMode] = useState<'queue' | 'search'>('queue');
   const [isSearching, setIsSearching] = useState(false);
   const [searchError, setSearchError] = useState<string | null>(null);
-
+  const router = useRouter();
   const fetchGuildInfo = async () => {
     if (typeof params.guildId === 'string') {
       try {
@@ -252,6 +252,12 @@ export default function PlayerPage() {
     <div className={styles.playerPage}>
       <div className={styles.container}>
         <div className={styles.header}>
+        <button 
+            className={styles.backButton} 
+            onClick={() => router.back()}
+          >
+            ❮
+          </button>
           <div className={styles.guildInfo}>
             {guildInfo.icon ? (
               <Image

@@ -1,0 +1,82 @@
+/* styles/404.module.css */
+/* 
+  
+  body {
+    background-color: #121212;
+    color: #e0e0e0;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  } */
+  
+  .container {
+    background-color: #121212;
+    color: #e0e0e0;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    padding: 30px;
+  }
+  
+  .content {
+    background-color: #1e1e1e;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .title {
+    font-size: 6rem;
+    font-weight: 900;
+    color: #ff4081;
+    margin-bottom: 20px;
+  }
+  
+  .message {
+    font-size: 1.5rem;
+    color: #bbb;
+    margin-bottom: 30px;
+  }
+  
+  .homeButton {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    background-color: #ffb936;
+    color: black;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    width: 200px;
+  }
+  
+  .homeButton:hover {
+    background-color: #ffa600;
+    transform: translateY(-3px);
+  }
+  
+  .homeButton:focus {
+    outline: none;
+  }
+  
+  @media (max-width: 480px) {
+    .title {
+      font-size: 4rem;
+    }
+  
+    .message {
+      font-size: 1.2rem;
+    }
+  
+    .homeButton {
+      padding: 12px 24px;
+      font-size: 1rem;
+      width: 180px;
+    }
+  }
+  
