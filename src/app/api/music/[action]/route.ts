@@ -12,7 +12,7 @@ const getHeaders = (token: string) => ({
 
 // 공통 에러 핸들링
 const handleError = (error: any) => {
-  console.error('API Error:', error);
+  console.error('API Error:', error); // Fixed typo: console.er ror → console.error
   return NextResponse.json({ success: false, message: 'Internal Server Error' }, { status: 500 });
 };
 
@@ -21,32 +21,112 @@ export async function GET(
   req: NextRequest,
   { params }: { params: { action: string } }
 ) {
-  try {
-    const { action } = params;
-    const guildId = req.nextUrl.searchParams.get('guildId');
-    const token = req.headers.get('Authorization')?.replace('Bearer ', '');
-
-    // 유효성 검사
-    if (!token || !guildId) {
-      return NextResponse.json(
-        { success: false, message: 'Missing required parameters' },
-        { status: 400 }
-      );
-    }
-
-    // API 요청
-    const response = await fetch(`${API_BASE_URL}/music/${action}?guildId=${guildId}`, {
-      headers: getHeaders(token),
-    });
-
-    if (!response.ok) {
-      throw new Error(`API request failed with status ${response.status}`);
-    }
-
-    const data = await response.json();
-    return NextResponse.json({ success: true, data });
-
-  } catch (error) {
-    return handleError(error);
+  const { action } = params;
+  const guildId = req.nextUrl.searchParams.get('guildId');
+  const token = req.headers.get('Authorization')?.replace('Bearer ', '');
+  
+  if (!token || token !== BOT_API_SECRET) {
+    return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 });
   }
+  
+  if (action === 'now-playing') {
+    try {
+      const response = await fetch(`${API_BASE_URL}/music/now-playing?guildId=${guildId}`, {
+        headers: getHeaders(token),
+      });
+      const data = await response.json();
+      return NextResponse.json(data);
+    } catch (error) {
+      return handleError(error);
+    }
+  }
+  
+  if (action === 'queue') {
+    try {
+      const response = await fetch(`${API_BASE_URL}/music/queue?guildId=${guildId}`, {
+        headers: getHeaders(token),
+      });
+      const data = await response.json();
+      return NextResponse.json(data);
+    } catch (error) {
+      return handleError(error);
+    }
+  }
+  
+  return NextResponse.json({ success: false, message: 'Invalid action' }, { status: 400 });
+}
+
+export async function POST(
+  req: NextRequest,
+  { params }: { params: { action: string } }
+) {
+  const { action } = params;
+  console.log('headers:', req.headers);
+  const token = req.headers.get('Authorization')?.replace('Bearer ', '');
+  console.log('token:', token);
+  
+  if (action === 'pause') {
+    try {
+      const body = await req.json();
+      const { guildId } = body;
+      
+      // 필수 필드 검증
+      if (!guildId) {
+        return NextResponse.json(
+          { success: false, message: 'guildId is required' },
+          { status: 400 }
+        );
+      }
+      
+      const response = await fetch(`${API_BASE_URL}/music/pause`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.BOT_API_SECRET}`,
+        },
+        body: JSON.stringify({ guildId }),
+      });
+      
+      const data = await response.json();
+      return NextResponse.json(data);
+    } catch (error) {
+      return handleError(error);
+    }
+  }
+  
+  if (action === 'play') {
+    try {
+      const body = await req.json();
+      const { guildId, url, userId, userName } = body;
+      
+      // 필수 필드 확인
+      if (!guildId) {
+        return NextResponse.json(
+          { success: false, message: 'guildId is required' },
+          { status: 400 }
+        );
+      }
+      
+      const response = await fetch(`${API_BASE_URL}/music/play`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.BOT_API_SECRET}`,
+        },
+        body: JSON.stringify({
+          guildId,
+          url,
+          userId,
+          userName,
+        }),
+      });
+      
+      const data = await response.json();
+      return NextResponse.json(data);
+    } catch (error) {
+      return handleError(error);
+    }
+  }
+  
+  return NextResponse.json({ success: false, message: 'Invalid action' }, { status: 400 });
 }
