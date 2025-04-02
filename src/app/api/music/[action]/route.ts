@@ -17,8 +17,10 @@ const handleError = (error: any) => {
 };
 
 // Now Playing (GET)
-export async function GET(req: NextRequest, context: { params: { action: string } }) {
-  const { params } = context;
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { action: string } }
+) {
   const { action } = params;
   const guildId = req.nextUrl.searchParams.get('guildId');
   const token = req.headers.get('Authorization')?.replace('Bearer ', '');
@@ -54,8 +56,10 @@ export async function GET(req: NextRequest, context: { params: { action: string 
   return NextResponse.json({ success: false, message: 'Invalid action' }, { status: 400 });
 }
 
-export async function POST(req: NextRequest, context: { params: { action: string } }) {
-  const { params } = context;
+export async function POST(
+  req: NextRequest,
+  { params }: { params: { action: string } }
+) {
   const { action } = params;
   console.log('headers:', req.headers);
   const token = req.headers.get('Authorization')?.replace('Bearer ', '');
