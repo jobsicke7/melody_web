@@ -1,4 +1,5 @@
 import { MongoClient, ServerApiVersion } from 'mongodb';
+import type { MongoClient as MongoClientType } from 'mongodb';
 import mongoose from 'mongoose';
 
 if (!process.env.MONGODB_URI) {
@@ -21,11 +22,11 @@ interface MongooseConnection {
 }
 
 declare global {
-  var _mongoClientPromise: Promise<MongoClient> | undefined;
+  var _mongoClientPromise: Promise<MongoClientType> | undefined;
   var _mongooseConnection: MongooseConnection;
 }
 
-let clientPromise: Promise<MongoClient>;
+let clientPromise: Promise<MongoClientType>;
 
 // MongoDB 클라이언트 연결 관리
 if (process.env.NODE_ENV === 'development') {
