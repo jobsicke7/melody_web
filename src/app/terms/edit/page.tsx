@@ -22,7 +22,7 @@ export default function PrivacyEditPage() {
         // Fetch document content
         const fetchContent = async () => {
             try {
-                const response = await fetch('/api/docs?type=privacy');
+                const response = await fetch('/api/docs?type=terms');
 
                 if (!response.ok) {
                     throw new Error(`Failed to fetch document. Status: ${response.status}`);
