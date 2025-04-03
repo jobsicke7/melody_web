@@ -47,13 +47,38 @@ export default function PrivacyEditPage() {
         fetchContent();
     }, [session, router]); // This effect runs when session or router changes
 
+    const handleSave = async (updatedContent: string) => {
+        try {
+            const response = await fetch('/api/docs?type=privacy', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ content: updatedContent }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to save document. Status: ${response.status}`);
+            }
+
+            alert('저장되었습니다.');
+        } catch (error) {
+            console.error('Failed to save document:', error);
+            alert('저장 중 오류가 발생했습니다.');
+        }
+    };
+
     if (isLoading) {
         return <p>Loading...</p>;
     }
 
     return (
         <div>
-            <DocEditor content={content} />
+            <DocEditor
+                initialContent={content}
+                docType="privacy"
+                onSave={handleSave}
+            />
         </div>
     );
 }
