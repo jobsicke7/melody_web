@@ -1,5 +1,6 @@
 /* components/styles/DocEditor.module.css */
 .editorContainer {
+    min-height: 100vh;
     width: 90%;
     min-width: 320px;  /* 모바일 최소 너비 */
     max-width: 800px;
@@ -54,6 +55,7 @@
 
 /* components/styles/DocEditor.module.css */
 .loading {
+    min-height: 100vh;
     padding: 2rem;
     text-align: center;
     color: #e2e2e2;

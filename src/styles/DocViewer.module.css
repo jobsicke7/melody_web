@@ -11,6 +11,7 @@
   }
   
   .container {
+      min-height: 100vh;
       width: 90%;
       min-width: 320px;
       max-width: 800px;
@@ -28,6 +29,7 @@
 }
 
 .content {
+    min-height: 100vh;
     line-height: 1.6;
     color: #d3d3d3;
 }

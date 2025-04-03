@@ -174,7 +174,7 @@ export default function DocEditor({ initialContent, docType, onSave }: DocEditor
             ></div>
 
             {/* 에디터 로딩 중 표시 */}
-            {!isLoaded && <div className={styles.loading}>에디터 로딩 중...</div>}
+            {!isLoaded && <div className={styles.loading}></div>}
         </div>
     );
 }
