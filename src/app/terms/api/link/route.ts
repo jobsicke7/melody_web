@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export async function GET(req) {
+export async function GET(req: Request) {
     try {
         const { searchParams } = new URL(req.url);
         let url = searchParams.get('url');
@@ -47,7 +47,7 @@ export async function GET(req) {
     }
 }
 
-export async function POST(req) {
+export async function POST(req: Request) {
     try {
         const { url } = await req.json();
 
