@@ -90,12 +90,25 @@ export default function DocEditor({ initialContent, docType, onSave }: DocEditor
                         quote: Quote,
                         delimiter: Delimiter,
                         marker: Marker,
-                        paragraph: Paragraph
+                        paragraph: Paragraph,
+                        image: Image,
+                        table: Table,
+                        code: Code,
+                        inlineCode: InlineCode,
+                        embed: Embed,
+                        warning: Warning,
+                        linkTool: {
+                            class: LinkTool,
+                            config: {
+                                endpoint: '/api/link', // Next.js API 라우트
+                            },
+                        },
+                        raw: Raw,
+                        underline: Underline
                     },
                     data: parsedContent,
                     placeholder: '내용을 입력하세요...',
                     onChange: () => {
-                        // onChange 로직 추가
                     }
                 });
 

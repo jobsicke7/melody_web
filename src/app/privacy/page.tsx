@@ -1,4 +1,4 @@
-import { clientPromise } from '@/lib/mongo';
+import { clientPromise } from '@/lib/mongodb';
 import DocViewer from '@/components/DocViewer';
 import { Metadata } from 'next';
 

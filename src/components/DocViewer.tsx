@@ -24,9 +24,23 @@ export default function DocViewer({ content, title, docType}: DocViewerProps) {
         }
 
         try {
-            // JSON 형식으로 파싱 시도
             const data = JSON.parse(content);
-            setParsedContent(data);
+
+            // 데이터 구조 변환
+            const transformedBlocks = data.blocks.map((block: any) => {
+                if (block.link) {
+                    return {
+                        type: 'link',
+                        data: {
+                            link: block.link,
+                            meta: block.meta || {}
+                        }
+                    };
+                }
+                return block;
+            });
+
+            setParsedContent({ ...data, blocks: transformedBlocks });
         } catch (e) {
             // 일반 텍스트로 취급
             setParsedContent({
@@ -123,7 +137,17 @@ export default function DocViewer({ content, title, docType}: DocViewerProps) {
 
                         case 'paragraph':
                             return <p key={index} className={styles.paragraph} dangerouslySetInnerHTML={{ __html: block.data.text }}></p>;
-
+                        case 'link':
+                            return (
+                                <div key={index} className={styles.linkButtonContainer}>
+                                    <a href={block.data.link} target="_blank" rel="noopener noreferrer" className={styles.linkButton}>
+                                        {block.data.meta?.title || '링크 열기'}
+                                    </a>
+                                    {block.data.meta?.description && (
+                                        <p className={styles.linkDescription}>{block.data.meta.description}</p>
+                                    )}
+                                </div>
+                            );
                         case 'list':
                             if (block.data.style === 'ordered') {
                                 return (

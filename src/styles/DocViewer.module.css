@@ -136,3 +136,29 @@
 .raw {
     margin: 1rem 0;
 }
+.linkButtonContainer {
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.linkButton {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: #0070f3;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.linkButton:hover {
+    background-color: #005bb5;
+}
+
+.linkDescription {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: #888888;
+}

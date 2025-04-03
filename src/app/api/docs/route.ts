@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { clientPromise } from '@/lib/mongo';
+import { clientPromise } from '@/lib/mongodb';
 
 // GET 요청 처리 (문서 가져오기)
 export async function GET(request: NextRequest) {

@@ -59,3 +59,26 @@
     color: #e2e2e2;
     font-style: italic;
 }
+/* 다크 모드 스타일 */
+.editor-dark-mode {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+.editor-dark-mode .ce-block__content {
+    color: #ffffff;
+}
+
+.editor-dark-mode .ce-toolbar__content {
+    background-color: #2e2e2e;
+    border-color: #444;
+}
+
+.editor-dark-mode .ce-inline-tool {
+    background-color: #444;
+    color: #fff;
+}
+
+.editor-dark-mode .ce-inline-tool--active {
+    background-color: #666;
+}
