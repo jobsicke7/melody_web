@@ -1,4 +1,4 @@
-import { MongoClient as MongoClientType, ServerApiVersion } from 'mongodb';
+import { MongoClient, ServerApiVersion } from 'mongodb';
 import mongoose from 'mongoose';
 
 if (!process.env.MONGODB_URI) {
@@ -21,17 +21,16 @@ interface MongooseConnection {
 }
 
 declare global {
-  var _mongoClientPromise: Promise<MongoClientType> | undefined;
+  var _mongoClientPromise: Promise<MongoClient> | undefined;
   var _mongooseConnection: MongooseConnection;
 }
 
-let clientPromise: Promise<MongoClientType>;
+let clientPromise: Promise<MongoClient>;
 
 // MongoDB 클라이언트 연결 관리
 if (process.env.NODE_ENV === 'development') {
-  // 개발 환경에서는 연결을 재사용
   if (!global._mongoClientPromise) {
-    const client = new MongoClientType(uri, options);
+    const client = new MongoClient(uri, options);
     global._mongoClientPromise = client.connect()
       .catch(error => {
         console.error('MongoDB 연결 실패:', error);
@@ -40,8 +39,7 @@ if (process.env.NODE_ENV === 'development') {
   }
   clientPromise = global._mongoClientPromise;
 } else {
-  // 프로덕션 환경에서는 새로운 연결 생성
-  const client = new MongoClientType(uri, options);
+  const client = new MongoClient(uri, options);
   clientPromise = client.connect();
 }
 
