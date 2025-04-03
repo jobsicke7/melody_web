@@ -137,15 +137,32 @@ export default function DocViewer({ content, title, docType}: DocViewerProps) {
 
                         case 'paragraph':
                             return <p key={index} className={styles.paragraph} dangerouslySetInnerHTML={{ __html: block.data.text }}></p>;
-                        case 'link':
+                        case 'linkTool':
+                            if (!block.data || !block.data.link || !block.data.meta) {
+                                console.warn('Invalid link block data:', block);
+                                return null; // 데이터가 유효하지 않으면 렌더링하지 않음
+                            }
+                        
+                            // URL이 http:// 또는 https://로 시작하지 않으면 추가
+                            const formattedLink = block.data.link.startsWith('http://') || block.data.link.startsWith('https://')
+                                ? block.data.link
+                                : `https://${block.data.link}`;
+                        
                             return (
-                                <div key={index} className={styles.linkButtonContainer}>
-                                    <a href={block.data.link} target="_blank" rel="noopener noreferrer" className={styles.linkButton}>
-                                        {block.data.meta?.title || '링크 열기'}
+                                <div key={index} className={styles.link}>
+                                    <a href={formattedLink} target="_blank" rel="noopener noreferrer" className={styles.linkCard}>
+                                        <div className={styles.linkImage}>
+                                            {block.data.meta.image?.url ? (
+                                                <img src={block.data.meta.image.url} alt={block.data.meta.title || 'Link image'} />
+                                            ) : (
+                                                <div></div>
+                                            )}
+                                        </div>
+                                        <div className={styles.linkContent}>
+                                            <h3 className={styles.linkTitle}>{block.data.meta.title || '제목 없음'}</h3>
+                                            <p className={styles.linkDescription}>{block.data.meta.description || '설명 없음'}</p>
+                                        </div>
                                     </a>
-                                    {block.data.meta?.description && (
-                                        <p className={styles.linkDescription}>{block.data.meta.description}</p>
-                                    )}
                                 </div>
                             );
                         case 'list':
