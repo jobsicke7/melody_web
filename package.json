@@ -29,6 +29,7 @@
     "@editorjs/warning": "^1.4.1",
     "axios": "^1.8.4",
     "certifi": "^14.5.15",
+    "date-fns": "^4.1.0",
     "framer-motion": "^12.6.3",
     "lucide-react": "^0.485.0",
     "mongodb": "^3.7.4",

@@ -32,3 +32,8 @@ export const getdocs = async () => {
   const db = await getDb();
   return db.collection("docs");
 };
+
+export const getNoticesCollection = async () => {
+  const db = await getDb();
+  return db.collection("noticelist");
+};
