@@ -5,7 +5,7 @@ if (!process.env.MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable');
 }
 
-const uri = process.env.MONGODB_URI;
+const uri = process.env.MONGO_URI;
 
 // MongoDB 클라이언트 옵션
 const options = {
