@@ -22,14 +22,14 @@ const Footer: React.FC<FooterProps> = ({
       <div className={styles.container}>
         <div className={styles.top}>
           <div className={styles.logoSection}>
-            <Image 
-              src={logoUrl} 
-              alt="TEAM Melody Logo" 
-              width={180} 
-              height={40} 
-              className={styles.logo}
-              style={{ height: 'auto', width: 'auto' }} // 종횡비 유지
-            />
+          <Image 
+            src={logoUrl} 
+            alt="TEAM Melody Logo" 
+            width={180} 
+            height={40} 
+            className={styles.logo}
+            style={{ maxWidth: '100%', height: 'auto' }} // 가로 크기 제한 및 종횡비 유지
+          />
             <p className={styles.copyright}>© 2025 TEAM Melody.</p>
           </div>
           
