@@ -1,71 +1,59 @@
-// app/terms/edit/page.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import DocEditor from '@/components/DocEditor';
 import { useSession } from 'next-auth/react';
-import { redirect } from 'next/navigation';
 
-export default function TermsEditPage() {
+export default function PrivacyEditPage() {
     const [isAdmin, setIsAdmin] = useState(false);
     const { data: session } = useSession();
-    
-    const [content, setContent] = useState<string>('');
-    const [isLoading, setIsLoading] = useState(true);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [content, setContent] = useState<string>(''); // The content fetched from API
+    const [isLoading, setIsLoading] = useState<boolean>(true); // Loading state
     const router = useRouter();
+
     useEffect(() => {
-        // 문서 내용 가져오기
+        // Check if the user is authenticated and has the correct email
+        if (session?.user?.email !== 'jobsicke282@gmail.com') {
+            router.back(); // Redirect to the previous page
+            return;
+        }
+
+        // Fetch document content
         const fetchContent = async () => {
             try {
                 const response = await fetch('/api/docs?type=terms');
+
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch document. Status: ${response.status}`);
+                }
+
                 const data = await response.json();
-                setContent(data.content || '');
+
+                // Handle empty or malformed content from the server
+                if (data?.content) {
+                    setContent(data.content);
+                } else {
+                    setContent(''); // If no content is found, set to empty string
+                }
             } catch (error) {
                 console.error('Failed to fetch document:', error);
+                setContent(''); // Set content to empty in case of error
             } finally {
                 setIsLoading(false);
             }
         };
 
         fetchContent();
-    }, []);
-
-
-    const handleSave = async (newContent: string) => {
-        try {
-            const response = await fetch('/api/docs', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    type: 'terms',
-                    content: newContent,
-                    password: 'jslove0619qq@@', // 저장할 때도 비밀번호 검증
-                }),
-            });
-            router.push('/terms');
-            if (!response.ok) {
-                throw new Error('Failed to save document');
-            }
-        } catch (error) {
-            console.error('Save error:', error);
-            throw error;
-        }
-    };
+    }, [session, router]); // This effect runs when session or router changes
 
     if (isLoading) {
-        return <div></div>;
+        return <p>Loading...</p>;
     }
+
     return (
-        <main>
-            <DocEditor
-                initialContent={content}
-                docType="terms"
-                onSave={handleSave}
-            />
-        </main>
+        <div>
+            <DocEditor content={content} />
+        </div>
     );
 }

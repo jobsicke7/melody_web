@@ -9,7 +9,6 @@ export async function GET(
   try {
     // 1. 세션 검증
     const session = await getServerSession(authOptions);
-    console.log('세션 정보:', session);
 
     if (!session?.accessToken) {
       console.log('인증 실패: 액세스 토큰 없음');
@@ -27,7 +26,6 @@ export async function GET(
       }
     });
 
-    console.log('길드 조회 상태:', guildsResponse.status);
     
     if (!guildsResponse.ok) {
       const errorText = await guildsResponse.text();
@@ -62,7 +60,6 @@ export async function GET(
       role = 'ADMIN';
     }
     
-    console.log('할당된 권한:', role);
 
     return NextResponse.json({ role });
 
