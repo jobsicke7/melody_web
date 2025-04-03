@@ -165,7 +165,66 @@ export default function DocViewer({ content, title, docType}: DocViewerProps) {
 
                         case 'delimiter':
                             return <hr key={index} className={styles.delimiter} />;
-
+                        case 'image':
+                            return (
+                                <div key={index} className={styles.image}>
+                                    <img src={block.data.file.url} alt={block.data.caption} />
+                                    {block.data.caption && <caption>{block.data.caption}</caption>}
+                                </div>
+                            );
+                        
+                        case 'table':
+                            return (
+                                <div key={index} className={styles.table}>
+                                    <table>
+                                        <tbody>
+                                            {block.data.content.map((row: string[], i: number) => (
+                                                <tr key={i}>
+                                                    {row.map((cell: string, j: number) => (
+                                                        <td key={j} dangerouslySetInnerHTML={{ __html: cell }}></td>
+                                                    ))}
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            );
+                        
+                        case 'code':
+                            return (
+                                <pre key={index} className={styles.code}>
+                                    <code>{block.data.code}</code>
+                                </pre>
+                            );
+                        
+                        case 'embed':
+                            return (
+                                <div key={index} className={styles.embed}>
+                                    <iframe
+                                        src={block.data.embed}
+                                        width={block.data.width}
+                                        height={block.data.height}
+                                        frameBorder="0"
+                                        allowFullScreen
+                                    />
+                                    {block.data.caption && <p>{block.data.caption}</p>}
+                                </div>
+                            );
+                        
+                        case 'warning':
+                            return (
+                                <div key={index} className={styles.warning}>
+                                    <h3>{block.data.title}</h3>
+                                    <p>{block.data.message}</p>
+                                </div>
+                            );
+                        
+                        case 'raw':
+                            return (
+                                <div key={index} className={styles.raw}>
+                                    <pre>{block.data.html}</pre>
+                                </div>
+                            );
                         default:
                             return <div key={index}>{JSON.stringify(block.data)}</div>;
                     }

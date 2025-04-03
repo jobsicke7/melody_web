@@ -50,7 +50,15 @@ export default function DocEditor({ initialContent, docType, onSave }: DocEditor
                 const Delimiter = (await import('@editorjs/delimiter')).default;
                 const Marker = (await import('@editorjs/marker')).default;
                 const Paragraph = (await import('@editorjs/paragraph')).default;
-
+                const Image = (await import('@editorjs/image')).default;
+                const Table = (await import('@editorjs/table')).default;
+                const Code = (await import('@editorjs/code')).default;
+                const InlineCode = (await import('@editorjs/inline-code')).default;
+                const Embed = (await import('@editorjs/embed')).default;
+                const Warning = (await import('@editorjs/warning')).default;
+                const LinkTool = (await import('@editorjs/link')).default;
+                const Raw = (await import('@editorjs/raw')).default;
+                const Underline = (await import('@editorjs/underline')).default;
                 // 컴포넌트가 언마운트 되었는지 확인
                 if (!isComponentMounted) return;
 

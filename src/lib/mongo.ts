@@ -1,4 +1,4 @@
-import { MongoClient, ServerApiVersion } from 'mongodb';
+import { MongoClient as MongoClientType, ServerApiVersion } from 'mongodb';
 import mongoose from 'mongoose';
 
 if (!process.env.MONGODB_URI) {
@@ -21,17 +21,17 @@ interface MongooseConnection {
 }
 
 declare global {
-  var _mongoClientPromise: Promise<MongoClient> | undefined;
+  var _mongoClientPromise: Promise<MongoClientType> | undefined;
   var _mongooseConnection: MongooseConnection;
 }
 
-let clientPromise: Promise<MongoClient>;
+let clientPromise: Promise<MongoClientType>;
 
 // MongoDB 클라이언트 연결 관리
 if (process.env.NODE_ENV === 'development') {
   // 개발 환경에서는 연결을 재사용
   if (!global._mongoClientPromise) {
-    const client = new MongoClient(uri, options);
+    const client = new MongoClientType(uri, options);
     global._mongoClientPromise = client.connect()
       .catch(error => {
         console.error('MongoDB 연결 실패:', error);
@@ -41,7 +41,7 @@ if (process.env.NODE_ENV === 'development') {
   clientPromise = global._mongoClientPromise;
 } else {
   // 프로덕션 환경에서는 새로운 연결 생성
-  const client = new MongoClient(uri, options);
+  const client = new MongoClientType(uri, options);
   clientPromise = client.connect();
 }
 
@@ -55,12 +55,10 @@ if (!global._mongooseConnection) {
 
 async function connectDB() {
   try {
-    // 기존 연결이 있다면 재사용
     if (global._mongooseConnection.conn) {
       return global._mongooseConnection.conn;
     }
 
-    // 연결 시도 중이라면 기존 Promise 재사용
     if (!global._mongooseConnection.promise) {
       const opts = {
         bufferCommands: false,
@@ -75,7 +73,6 @@ async function connectDB() {
     const connection = await global._mongooseConnection.promise;
     global._mongooseConnection.conn = connection;
 
-    // 연결 이벤트 리스너 설정
     mongoose.connection.on('connected', () => {
       console.log('Mongoose가 MongoDB에 연결되었습니다.');
     });
@@ -84,13 +81,26 @@ async function connectDB() {
       console.error('Mongoose 연결 오류:', err);
     });
 
+    mongoose.connection.on('disconnected', () => {
+      console.log('Mongoose 연결이 종료되었습니다.');
+    });
+
     return connection;
   } catch (error) {
-    global._mongooseConnection.promise = null;
-    console.error('MongoDB 연결 실패:', error);
+    console.error('MongoDB 연결 중 오류 발생:', error);
     throw error;
   }
 }
 
-export { clientPromise };
-export default connectDB;
+async function disconnectDB() {
+  try {
+    await mongoose.disconnect();
+    global._mongooseConnection.conn = null;
+    global._mongooseConnection.promise = null;
+  } catch (error) {
+    console.error('MongoDB 연결 종료 중 오류 발생:', error);
+    throw error;
+  }
+}
+
+export { clientPromise, connectDB, disconnectDB };
