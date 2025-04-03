@@ -3,6 +3,7 @@ import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
 import Image from "next/image";
 import styles from "./page.module.css";
+import { unstable_noStore as noStore } from 'next/cache';
 
 // 타입 정의
 interface Author {
@@ -28,15 +29,16 @@ interface Notice {
 }
 
 async function getNotices(): Promise<Notice[]> {
+  // 캐시를 비활성화하여 매번 새로운 데이터를 가져오도록 설정
+  noStore();
+  
   try {
     const db = await getDb();
-
     // 데이터베이스 컬렉션 목록 확인 (디버깅용)
     const collections = await db.listCollections().toArray();
-
     // 컬렉션 이름이 정확한지 확인
     const notices = await db.collection("noticelist").find({}).toArray();
-
+    
     if (!notices || notices.length === 0) {
       console.log("No notices found in the collection");
       return [];
@@ -44,7 +46,7 @@ async function getNotices(): Promise<Notice[]> {
     
     return notices.map((notice: any) => ({
       ...notice,
-      _id: notice._id,
+      _id: notice._id, // 수정: *id 대신 _id 사용
       created_at: new Date(notice.created_at),
       updated_at: notice.updated_at ? new Date(notice.updated_at) : null
     }));
@@ -55,8 +57,9 @@ async function getNotices(): Promise<Notice[]> {
 }
 
 export default async function AnnouncePage() {
+  // 매번 새로운 데이터를 가져옴
   const notices = await getNotices();
-
+  
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
@@ -76,7 +79,7 @@ export default async function AnnouncePage() {
                   <div className={styles.authorBox}>
                     <div className={styles.avatarWrapper}>
                       <Image 
-                        src={notice.author?.avatar || "https://via.placeholder.com/40"} 
+                        src={notice.author?.avatar || "/default-avatar.png"} 
                         alt={notice.author?.name || "사용자"}
                         className={styles.avatar}
                         width={40}
