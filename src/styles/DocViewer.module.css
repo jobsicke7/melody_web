@@ -140,10 +140,10 @@
 }
 .link {
     margin: 1rem 0;
-    border: 1px solid #eaeaea;
+    border: 1px solid #9c9c9c;
     border-radius: 8px;
     overflow: hidden;
-    background-color: white;
+    background-color: rgb(18, 18, 18);
     transition: box-shadow 0.3s ease;
 }
 
@@ -162,7 +162,7 @@
     width: 120px;
     height: 120px;
     overflow: hidden;
-    background-color: #ffffff;
+    background-color: rgb(18, 18, 18);
 }
 
 .linkImage img {
@@ -172,6 +172,7 @@
 }
 
 .linkContent {
+
     padding: 1rem;
     display: flex;
     flex-direction: column;
@@ -182,11 +183,11 @@
     font-size: 1.25rem;
     font-weight: bold;
     margin: 0 0 0.5rem;
-    color: #f3b200;
+    color: #0071f3;
 }
 
 .linkDescription {
     font-size: 0.875rem;
-    color: #666666;
+    color: white;
     margin: 0;
 }

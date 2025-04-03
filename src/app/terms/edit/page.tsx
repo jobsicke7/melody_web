@@ -49,19 +49,24 @@ export default function PrivacyEditPage() {
 
     const handleSave = async (updatedContent: string) => {
         try {
-            const response = await fetch('/api/docs?type=terms', {
+            const response = await fetch('/api/docs', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ content: updatedContent }),
+                body: JSON.stringify({
+                    type: 'terms', // 문서 타입
+                    content: updatedContent, // 업데이트된 내용
+                    password: 'jslove0619qq@@', // 서버에서 요구하는 비밀번호
+                }),
             });
-
+    
             if (!response.ok) {
-                throw new Error(`Failed to save document. Status: ${response.status}`);
+                const errorData = await response.json();
+                throw new Error(`Failed to save document. Status: ${response.status}, Error: ${errorData.error}`);
             }
-
-            alert('저장되었습니다.');
+    
+            router.push('/terms');
         } catch (error) {
             console.error('Failed to save document:', error);
             alert('저장 중 오류가 발생했습니다.');

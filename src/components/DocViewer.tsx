@@ -151,16 +151,16 @@ export default function DocViewer({ content, title, docType}: DocViewerProps) {
                             return (
                                 <div key={index} className={styles.link}>
                                     <a href={formattedLink} target="_blank" rel="noopener noreferrer" className={styles.linkCard}>
+                                        <div className={styles.linkContent}>
+                                            <h3 className={styles.linkTitle}>{block.data.meta.title || '제목 없음'}</h3>
+                                            <p className={styles.linkDescription}>{block.data.meta.description || '설명 없음'}</p>
+                                        </div>
                                         <div className={styles.linkImage}>
                                             {block.data.meta.image?.url ? (
                                                 <img src={block.data.meta.image.url} alt={block.data.meta.title || 'Link image'} />
                                             ) : (
                                                 <div></div>
                                             )}
-                                        </div>
-                                        <div className={styles.linkContent}>
-                                            <h3 className={styles.linkTitle}>{block.data.meta.title || '제목 없음'}</h3>
-                                            <p className={styles.linkDescription}>{block.data.meta.description || '설명 없음'}</p>
                                         </div>
                                     </a>
                                 </div>

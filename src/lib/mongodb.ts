@@ -27,3 +27,8 @@ export const getPlayingCollection = async () => {
   const db = await getDb();
   return db.collection("now_playing");
 };
+
+export const getdocs = async () => {
+  const db = await getDb();
+  return db.collection("docs");
+};
