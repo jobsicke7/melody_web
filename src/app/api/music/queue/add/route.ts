@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { clientPromise } from '../../../../lib/mongodb';
+import { clientPromise } from '../../../../../lib/mongodb';
 import { Long } from 'mongodb'; // ✅ Int64 변환을 위해 추가
 
 export async function POST(req: NextRequest) {

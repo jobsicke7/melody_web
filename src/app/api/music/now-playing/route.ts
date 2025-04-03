@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { clientPromise } from '../../../lib/mongodb';
+import { clientPromise } from '../../../../lib/mongodb';
 import { Long } from 'mongodb'; // 🔥 Long 추가
 
 export async function GET(req: Request) {

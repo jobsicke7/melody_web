@@ -1,7 +1,9 @@
 .container {
+  width: 90%;
+  min-width: 320px;  /* 모바일 최소 너비 */
   max-width: 1200px;
   margin: 100px auto;
-  padding: 2rem 1rem;
+  padding: 2rem;
   min-height: 100vh;
   animation: fadeInUp 0.6s ease-out;
 }
@@ -22,8 +24,12 @@
 
 .categoryGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.5rem;
+  justify-content: center;
+  align-items: start;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .categoryCard {
@@ -32,17 +38,14 @@
   padding: 1.5rem;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   text-decoration: none;
-  color: #FFFFFF;
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
+  width: 100%;         /* 그리드 셀 너비에 맞춤 */
+  box-sizing: border-box; /* padding이 너비에 포함되도록 설정 */
 }
 
 .categoryCard:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
-
 .categoryCard:before {
   content: '';
   position: absolute;

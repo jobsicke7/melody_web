@@ -1,0 +1,79 @@
+/* 애니메이션 키프레임 정의 */
+@keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .container {
+      width: 90%;
+      min-width: 320px;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+      animation: fadeInUp 0.6s ease-out; /* 애니메이션 적용 */
+  }
+
+.title {
+    margin-top: 70px;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eaeaea;
+    font-size: 2rem;
+}
+
+.content {
+    line-height: 1.6;
+    color: #d3d3d3;
+}
+
+.empty {
+    color: #d3d3d3;
+    font-style: italic;
+}
+
+.header {
+    margin: 1.5rem 0 1rem;
+}
+
+.paragraph {
+    margin-bottom: 1rem;
+}
+
+.list {
+    margin: 1rem 0;
+    padding-left: 2rem;
+}
+
+.checklist {
+    margin: 1rem 0;
+}
+
+.checklistItem {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+}
+
+.checkbox {
+    margin-right: 0.75rem;
+    margin-top: 0.25rem;
+}
+
+.quote {
+    margin: 1.5rem 0;
+    padding: 0.75rem 1.5rem;
+    border-left: 4px solid #ff9900;
+    background-color: #161616;
+}
+
+.delimiter {
+    border: none;
+    border-top: 1px solid #eaeaea;
+    margin: 2rem 0;
+}
