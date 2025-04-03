@@ -122,7 +122,7 @@ export default function DashboardPage() {
                 </Link>
               ) : (
                 <a
-                  href={`https://discord.com/oauth2/authorize?client_id=${process.env.DISCORD_CLIENT_ID}&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fdev.jobsickes.shop%2Finvitethanks&integration_type=0&scope=identify+bot+applications.commands&guild_id=${guild.id}`}
+                  href={`https://discord.com/oauth2/authorize?client_id=1310753814319468565&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fdev.jobsickes.shop%2Finvitethanks&integration_type=0&scope=identify+bot+applications.commands&guild_id=${guild.id}`}
                   className={styles.inviteButton}
                   target="_blank"
                   rel="noopener noreferrer"
